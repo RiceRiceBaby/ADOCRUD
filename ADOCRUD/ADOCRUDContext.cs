@@ -15,8 +15,8 @@ namespace ADOCRUD
 {
     public class ADOCRUDContext : IDisposable
     {
-        protected static IDbConnection sqlConnection;
-        protected static IDbTransaction sqlTransaction;
+        internal static IDbConnection sqlConnection;
+        internal static IDbTransaction sqlTransaction;
 
         public ADOCRUDContext(string connectionString)
         {            
@@ -164,7 +164,7 @@ namespace ADOCRUD
         /// <param name="primaryKeyProperties">Properties of the model that are associated with the primary key</param>
         /// <param name="isUpdate">Is the sql an update query</param>
         /// <returns></returns>
-        private SqlCommand GenerateSqlCommand<T>(T item, string query, PropertyInfo[] modelProperties, PropertyInfo[] primaryKeyProperties, ADOCRUDEnums.Action action)
+        internal SqlCommand GenerateSqlCommand<T>(T item, string query, PropertyInfo[] modelProperties, PropertyInfo[] primaryKeyProperties, ADOCRUDEnums.Action action)
         {
             // Initializes sql command
             SqlCommand cmd = new SqlCommand(query.ToString(), sqlConnection as SqlConnection, sqlTransaction as SqlTransaction);
@@ -172,127 +172,26 @@ namespace ADOCRUD
             // Adds parameters to sql command
             for (int i = 0; i < modelProperties.Count(); i++)
             {
-                // Non nullable types
-                if (modelProperties[i].PropertyType == typeof(int) || modelProperties[i].PropertyType == typeof(Int32))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Int).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(DateTime))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.DateTime).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(decimal))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Decimal).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(double))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Float).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(float))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Float).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(bool))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Bit).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(byte))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.TinyInt).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(byte[]))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.VarBinary).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(Guid))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.UniqueIdentifier).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(Int16))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.SmallInt).Value = modelProperties[i].GetValue(item, null);
-                else if (modelProperties[i].PropertyType == typeof(Int64))
-                    cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.BigInt).Value = modelProperties[i].GetValue(item, null);
-
-                // Nullable types
-                else if (modelProperties[i].PropertyType == typeof(int?) || modelProperties[i].PropertyType == typeof(Int32?))
+                // Checks to see if the data type is in the list of handled data types
+                if (DataTypeMapper.DataTypes().ContainsKey(modelProperties[i].PropertyType))
                 {
-                    int? value = modelProperties[i].GetValue(item, null) as int?;
+                    SqlDbType dbType;
 
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Int).Value = modelProperties[i].GetValue(item, null);
+                    // Grabs value from property and checks if its null
+                    // If its not null, the pass value into sqlcommand parameter
+                    // Otherwise pass in DBNull.Value
+                    DataTypeMapper.DataTypes().TryGetValue(modelProperties[i].PropertyType, out dbType);
+
+                    object dbValue = modelProperties[i].GetValue(item, null);
+
+                    if (dbValue != null)
+                        cmd.Parameters.Add(modelProperties[i].Name, dbType).Value = modelProperties[i].GetValue(item, null);
                     else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Int).Value = DBNull.Value;
+                        cmd.Parameters.Add(modelProperties[i].Name, dbType).Value = DBNull.Value;
                 }
-                else if (modelProperties[i].PropertyType == typeof(DateTime?))
+                else
                 {
-                    DateTime? value = modelProperties[i].GetValue(item, null) as DateTime?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.DateTime).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.DateTime).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(decimal?))
-                {
-                    decimal? value = modelProperties[i].GetValue(item, null) as decimal?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Decimal).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Decimal).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(double?))
-                {
-                    double? value = modelProperties[i].GetValue(item, null) as double?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Float).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Float).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(float?))
-                {
-                    float? value = modelProperties[i].GetValue(item, null) as float?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Float).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Float).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(bool?))
-                {
-                    bool? value = modelProperties[i].GetValue(item, null) as bool?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Bit).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.Bit).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(byte?))
-                {
-                    byte? value = modelProperties[i].GetValue(item, null) as byte?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.TinyInt).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.TinyInt).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(Guid?))
-                {
-                    Guid? value = modelProperties[i].GetValue(item, null) as Guid?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.UniqueIdentifier).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.UniqueIdentifier).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(Int16?))
-                {
-                    Int16? value = modelProperties[i].GetValue(item, null) as Int16?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.SmallInt).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.SmallInt).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(Int64?))
-                {
-                    Int64? value = modelProperties[i].GetValue(item, null) as Int64?;
-
-                    if (value.HasValue)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.BigInt).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.BigInt).Value = DBNull.Value;
-                }
-                else if (modelProperties[i].PropertyType == typeof(string))
-                {
-                    if (modelProperties[i].GetValue(item, null) != null)
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.VarChar).Value = modelProperties[i].GetValue(item, null);
-                    else
-                        cmd.Parameters.Add(modelProperties[i].Name, SqlDbType.VarChar).Value = DBNull.Value;
+                    throw new Exception("One or more properties in your model include an unhandled data type");
                 }
             }
 

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADOCRUD.UnitTests", "ADOCRU
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ADOCRUD.DBSource", "ADOCRUD.DBSource\ADOCRUD.DBSource.sqlproj", "{FD8BC9A6-9C68-49C8-BEC3-3C8A63EC53BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADOCRUD.ObjectClassGenerator", "ADOCRUD.ObjectClassGenerator\ADOCRUD.ObjectClassGenerator.csproj", "{D54549ED-145C-4310-BB4A-2EAA470CDF08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{FD8BC9A6-9C68-49C8-BEC3-3C8A63EC53BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD8BC9A6-9C68-49C8-BEC3-3C8A63EC53BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD8BC9A6-9C68-49C8-BEC3-3C8A63EC53BC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D54549ED-145C-4310-BB4A-2EAA470CDF08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D54549ED-145C-4310-BB4A-2EAA470CDF08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D54549ED-145C-4310-BB4A-2EAA470CDF08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D54549ED-145C-4310-BB4A-2EAA470CDF08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

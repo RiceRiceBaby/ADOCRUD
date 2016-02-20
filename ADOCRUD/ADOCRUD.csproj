@@ -49,6 +49,7 @@
     <Compile Include="Attributes\PrimaryKey.cs" />
     <Compile Include="Attributes\Table.cs" />
     <Compile Include="ADOCRUDContext.cs" />
+    <Compile Include="Helpers\DataTypeMapper.cs" />
     <Compile Include="Helpers\ObjectTypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

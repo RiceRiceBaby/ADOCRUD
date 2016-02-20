@@ -148,17 +148,25 @@ namespace ADOCRUD.UnitTests
         public void TestInsert_NullablePropertiesWithRealValues()
         {
             Models.Nullable n = new Models.Nullable();
-            n.Integer32Value = 32;
-            n.DateTimeValue = Convert.ToDateTime("01/11/1984");
-            n.DecimalValue = 1.11m;
-            n.DoubleValue = 2.22;
-            n.FloatValue = 33;
-            n.BoolValue = true;
-            n.ByteValue = 1;
-            n.GuidValue = guid;
-            n.Integer16Value = 16;
             n.Integer64Value = 64;
-            n.StringValue = "Nothing";
+            n.ByteValue = 1;
+            n.ByteArrayValue = new byte[4];
+            n.ByteArrayValue[0] = 0;
+            n.ByteArrayValue[1] = 1;
+            n.ByteArrayValue[2] = 2;
+            n.ByteArrayValue[3] = 3;
+            n.BoolValue = true;
+            n.CharValue = "a";
+            n.DateTimeValue = Convert.ToDateTime("01/11/1984");
+            n.DateTimeOffsetValue = DateTimeOffset.MaxValue;
+            n.DecimalValue = 1.11m;
+            n.FloatValue = 22;
+            n.DoubleValue = 33;
+            n.Integer32Value = 44;
+            n.Single = 55;
+            n.Integer16Value = 16;
+            n.GuidValue = guid;
+            n.StringValue = "Something";
 
             using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
@@ -174,17 +182,24 @@ namespace ADOCRUD.UnitTests
             }
 
             Assert.IsTrue(n != null &&
-                n.Integer32Value == 32 &&
-                n.DateTimeValue == Convert.ToDateTime("01/11/1984") &&
-                n.DecimalValue == 1.11m &&
-                n.DoubleValue == 2.22 &&
-                n.FloatValue == 33 &&
-                n.BoolValue == true &&
-                n.ByteValue == 1 &&
-                n.GuidValue == guid &&
-                n.Integer16Value == 16 &&
                 n.Integer64Value == 64 &&
-                n.StringValue == "Nothing",
+                n.ByteValue == 1 &&
+                n.ByteArrayValue[0] == 0 &&
+                n.ByteArrayValue[1] == 1 &&
+                n.ByteArrayValue[2] == 2 &&
+                n.ByteArrayValue[3] == 3 &&
+                n.BoolValue == true &&
+                n.CharValue == "a" &&
+                n.DateTimeValue == Convert.ToDateTime("01/11/1984") &&
+                n.DateTimeOffsetValue == DateTimeOffset.MaxValue &&
+                n.DecimalValue == 1.11m &&
+                n.FloatValue == 22 &&
+                n.DoubleValue == 33 &&
+                n.Integer32Value == 44 &&
+                n.Single == 55 &&
+                n.Integer16Value == 16 &&
+                n.GuidValue == guid &&
+                n.StringValue == "Something",
                 "Insert of non-null values in nullable properties failed");
         }
 
@@ -195,16 +210,20 @@ namespace ADOCRUD.UnitTests
         public void TestInsert_NullablePropertiesWithNullValues()
         {
             Models.Nullable n = new Models.Nullable();
-            n.Integer32Value = null;
-            n.DateTimeValue = null;
-            n.DecimalValue = null;
-            n.DoubleValue = null;
-            n.FloatValue = null;
-            n.BoolValue = null;
-            n.ByteValue = null;
-            n.GuidValue = null;
-            n.Integer16Value = null;
             n.Integer64Value = null;
+            n.ByteValue = null;
+            n.ByteArrayValue = null;
+            n.BoolValue = null;
+            n.CharValue = null;
+            n.DateTimeValue = null;
+            n.DateTimeOffsetValue = null;
+            n.DecimalValue = null;
+            n.FloatValue = null;
+            n.DoubleValue = null;
+            n.Integer32Value = null;
+            n.Single = null;
+            n.Integer16Value = null;
+            n.GuidValue = null;
             n.StringValue = null;
 
             using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
@@ -221,18 +240,22 @@ namespace ADOCRUD.UnitTests
             }
 
             Assert.IsTrue(n != null &&
-                n.Integer32Value == null &&
-                n.DateTimeValue == null &&
-                n.DecimalValue == null &&
-                n.DoubleValue == null &&
-                n.FloatValue == null &&
-                n.BoolValue == null &&
-                n.ByteValue == null &&
-                n.GuidValue == null &&
-                n.Integer16Value == null &&
-                n.Integer64Value == null &&
-                n.StringValue == null,
-                "Insert of null values in nullable properties failed");
+                !n.Integer64Value.HasValue &&
+                !n.ByteValue.HasValue &&
+                n.ByteArrayValue == null &&
+                !n.BoolValue.HasValue &&
+                string.IsNullOrEmpty(n.CharValue) &&
+                !n.DateTimeValue.HasValue &&
+                !n.DateTimeOffsetValue.HasValue &&
+                !n.DecimalValue.HasValue &&
+                !n.FloatValue.HasValue &&
+                !n.DoubleValue.HasValue &&
+                !n.Integer32Value.HasValue &&
+                !n.Single.HasValue &&
+                !n.Integer16Value.HasValue &&
+                !n.GuidValue.HasValue &&
+                string.IsNullOrEmpty(n.StringValue),
+            "Insert of null values in nullable properties failed");
         }
 
         /// <summary>
@@ -242,21 +265,24 @@ namespace ADOCRUD.UnitTests
         public void TestInsert_NonNullablePropertiesWithValues()
         {
             NonNullable n = new NonNullable();
-            n.Integer32Value = 32;
-            n.DateTimeValue = Convert.ToDateTime("01/11/1984");
-            n.DecimalValue = 1.11m;
-            n.DoubleValue = 2.22;
-            n.FloatValue = 33;
-            n.BoolValue = true;
-            n.ByteValue = 1;
-
-            IList<byte> byteList = new List<byte>();
-            byteList.Add(0x00);
-            n.ByteArrayValue = byteList.ToArray();
-
-            n.GuidValue = guid;
-            n.Integer16Value = 16;
             n.Integer64Value = 64;
+            n.ByteValue = 1;
+            n.ByteArrayValue = new byte[4];
+            n.ByteArrayValue[0] = 0;
+            n.ByteArrayValue[1] = 1;
+            n.ByteArrayValue[2] = 2;
+            n.ByteArrayValue[3] = 3;
+            n.BoolValue = true;
+            n.CharValue = "a";
+            n.DateTimeValue = Convert.ToDateTime("01/11/1984");
+            n.DateTimeOffsetValue = DateTimeOffset.MaxValue;
+            n.DecimalValue = 1.11m;
+            n.FloatValue = 22;
+            n.DoubleValue = 33;
+            n.Integer32Value = 44;
+            n.Single = 55;
+            n.Integer16Value = 16;
+            n.GuidValue = guid;
             n.StringValue = "Something";
 
             using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
@@ -273,18 +299,25 @@ namespace ADOCRUD.UnitTests
             }
 
             Assert.IsTrue(n != null &&
-                n.Integer32Value == 32 &&
-                n.DateTimeValue == Convert.ToDateTime("01/11/1984") &&
-                n.DecimalValue == 1.11m &&
-                n.DoubleValue == 2.22 &&
-                n.FloatValue == 33 &&
-                n.BoolValue == true &&
-                n.ByteValue == 1 &&
-                n.GuidValue == guid &&
-                n.Integer16Value == 16 &&
                 n.Integer64Value == 64 &&
+                n.ByteValue == 1 &&
+                n.ByteArrayValue[0] == 0 &&
+                n.ByteArrayValue[1] == 1 &&
+                n.ByteArrayValue[2] == 2 &&
+                n.ByteArrayValue[3] == 3 &&
+                n.BoolValue == true &&
+                n.CharValue == "a" &&
+                n.DateTimeValue == Convert.ToDateTime("01/11/1984") &&
+                n.DateTimeOffsetValue == DateTimeOffset.MaxValue &&
+                n.DecimalValue == 1.11m &&
+                n.FloatValue == 22 &&
+                n.DoubleValue == 33 &&
+                n.Integer32Value == 44 &&
+                n.Single == 55 &&
+                n.Integer16Value == 16 &&
+                n.GuidValue == guid &&
                 n.StringValue == "Something",
-                "Insert of values in nonnullable properties failed");
+                "Insert of values in non nullable properties failed");
         }
 
         /// <summary>
