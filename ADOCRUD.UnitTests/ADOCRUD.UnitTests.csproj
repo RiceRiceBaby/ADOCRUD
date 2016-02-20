@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="ADOCRUDTests.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\NonNullable.cs" />
+    <Compile Include="Models\Nullable.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

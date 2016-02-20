@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADOCRUDEnums.cs" />
     <Compile Include="Attributes\Member.cs" />
     <Compile Include="Attributes\PrimaryKey.cs" />
     <Compile Include="Attributes\Table.cs" />
