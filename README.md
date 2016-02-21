@@ -1,5 +1,5 @@
 # ADOCRUD
-Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapper. Handles automatic insert, update, and removal of objects without having to write any sql statements. Since this is an extension of Dapper, you still write sql statements to retrieve data, but that data will automatically be mapped to your C# objects. All this is done primarily through reflection.<br /><br />
+Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapper. Handles automatic insert, update, and removal of objects without having to write any sql statements for Create, Update, and Remove functionality. The query part of this ORM is an extension of Dapper which means you still need to write sql statements to retrieve data, but that data will automatically be mapped to your C# objects. Most of this application was written primarily using reflection.<br /><br />
 This ORM comes with an object class generator tool. This tool allows you to connect to a Sql Server database, grabs all the tables, and generates C# objects as .cs files and outputs them to the folder you specify.
 
 ## ADOCRUDContext (ORM)
