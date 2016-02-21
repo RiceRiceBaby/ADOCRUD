@@ -106,7 +106,7 @@ public Product GetProductById(int productId)
   }
 }
 ```
-QueryItems executes the select statement you pass in, grabs the results of the query and automatically maps it the C# object and returns that object. Notice that to keep the query parameterized, you pass the parameters in the 2nd argument as a single object. To pass in extra parameters, you just add in comma separated values (i.e new { Id = productId, name = "Basketball", price = 11.99 })<br />< br />
+QueryItems executes the select statement you pass in, grabs the results of the query and automatically maps it the C# object and returns that object. Notice that to keep the query parameterized, you pass the parameters in the 2nd argument as a single object. To pass in extra parameters, you just add in comma separated values (i.e new { Id = productId, name = "Basketball", price = 11.99 })<br />
 
 ##ADOCRUD Object Class Generator
 
