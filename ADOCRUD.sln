@@ -11,6 +11,12 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ADOCRUD.DBSource", "ADOCRUD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADOCRUD.ObjectClassGenerator", "ADOCRUD.ObjectClassGenerator\ADOCRUD.ObjectClassGenerator.csproj", "{D54549ED-145C-4310-BB4A-2EAA470CDF08}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{2DF3C345-020E-4E98-8239-9C874A869027}"
+	ProjectSection(SolutionItems) = preProject
+		License.txt = License.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
