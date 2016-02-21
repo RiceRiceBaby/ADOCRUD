@@ -224,7 +224,7 @@ namespace ADOCRUD.UnitTests
         /// Test insert of of nullable properties of all value types with non null values
         /// </summary>
         [TestMethod]
-        public void TestInsert_NullablePropertiesWithRealValues()
+        public void TestInsert_NullablePropertiesWithValues()
         {
             Models.Nullable n = new Models.Nullable();
             n.Integer64Value = 64;
