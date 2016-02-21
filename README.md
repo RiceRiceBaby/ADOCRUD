@@ -49,12 +49,6 @@ public void AddProduct(Product p)
 {
   using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
   {
-    Product p = new Product();
-    p.CategoryId = 1;
-    p.Name = "Basketball";
-    p.Description = "NBA Size";
-    p.Price = 59.99m;
-  
     context.Insert<Product>(p);
     context.Commit();
   }
@@ -69,11 +63,6 @@ public void UpdateProduct(Product p)
 {
   using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
   {
-      p.CategoryId = 1;
-      p.Name = "Basketball";
-      p.Description = "NBA Size";
-      p.Price = 29.99m;
-
       context.Update<Product>(p);
       context.Commit();
   }
