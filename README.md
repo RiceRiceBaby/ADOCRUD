@@ -1,5 +1,5 @@
 # ADOCRUD
-Lightweight ORM that is an extension of Dapper. Handles automatic insert, update, and removal of objects without having to write any sql statements. Since this is an extension of Dapper, you still write sql statements to retrieve data, but that data will automatically be mapped to your C# objects. All this is done primarily through reflection.<br /><br />
+Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapper. Handles automatic insert, update, and removal of objects without having to write any sql statements for Create, Update, and Remove functionality. The query part of this ORM is an extension of Dapper which means you still need to write sql statements to retrieve data, but that data will automatically be mapped to your C# objects. Most of this application was written primarily using reflection.<br /><br />
 This ORM comes with an object class generator tool. This tool allows you to connect to a Sql Server database, grabs all the tables, and generates C# objects as .cs files and outputs them to the folder you specify.
 
 ## ADOCRUDContext (ORM)
@@ -49,12 +49,6 @@ public void AddProduct(Product p)
 {
   using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
   {
-    Product p = new Product();
-    p.CategoryId = 1;
-    p.Name = "Basketball";
-    p.Description = "NBA Size";
-    p.Price = 59.99m;
-  
     context.Insert<Product>(p);
     context.Commit();
   }
@@ -69,11 +63,6 @@ public void UpdateProduct(Product p)
 {
   using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
   {
-      p.CategoryId = 1;
-      p.Name = "Basketball";
-      p.Description = "NBA Size";
-      p.Price = 29.99m;
-
       context.Update<Product>(p);
       context.Commit();
   }
@@ -106,7 +95,7 @@ public Product GetProductById(int productId)
   }
 }
 ```
-QueryItems executes the select statement you pass in, grabs the results of the query and automatically maps it the C# object and returns that object. Notice that to keep the query parameterized, you pass the parameters in the 2nd argument as a single object. To pass in extra parameters, you just add in comma separated values (i.e new { Id = productId, name = "Basketball", price = 11.99 })<br />
+QueryItems executes the select statement you pass in, grabs the results of the query and automatically maps it the C# object(s) and returns that/those object. The QueryItems function by default returns a list of objects, but you can limit it to a single object by using the "First()" or "FirstOrDefault()" method. Notice that to keep the query parameterized, you pass the parameters in the 2nd argument as a single object. To pass in extra parameters, you just add in comma separated values (i.e new { Id = productId, name = "Basketball", price = 11.99 })<br />
 
 ##ADOCRUD Object Class Generator
 
