@@ -42,7 +42,7 @@ namespace ADOCRUD.ObjectClassGenerator
 
                     foreach (KeyValuePair<string, string> pair in allTableNames)
                     {
-                        SqlDataAdapter adapter = new SqlDataAdapter("select top 1 * from " + pair.Value + "." + pair.Key, conn);
+                        SqlDataAdapter adapter = new SqlDataAdapter("select top 1 * from " + pair.Value + ".[" + pair.Key + "]", conn);
                         DataTable dt = new DataTable();
                         adapter.FillSchema(dt, SchemaType.Source);
                         adapter.Fill(dt);
@@ -68,6 +68,7 @@ namespace ADOCRUD.ObjectClassGenerator
                 lblResults.Visible = true;
                 txtOutput.Visible = true;
                 txtOutput.Text = ex.Message;
+                return;
             }
 
             lblResults.Visible = true;

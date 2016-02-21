@@ -20,7 +20,7 @@ namespace ADOCRUD.Helpers
         public static string GetTableName<T>(T item)
         {
             Table tableAttr = System.Attribute.GetCustomAttribute(item.GetType(), typeof(Table)) as Table;
-            return tableAttr.SchemaName + "." + tableAttr.TableName;
+            return "[" +tableAttr.SchemaName + "]"+ ".[" + tableAttr.TableName + "]";
         }
 
         /// <summary>

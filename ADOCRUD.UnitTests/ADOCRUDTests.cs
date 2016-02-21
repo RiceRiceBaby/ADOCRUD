@@ -15,8 +15,12 @@ namespace ADOCRUD.UnitTests
     public class ADOCRUDTests
     {
         private int productId { get; set; }
+        private int secondProductId { get; set; }
         private int nullableId { get; set; }
         private int nonNullableId { get; set; }
+        private int userId { get; set; }
+
+        private int secondUserId { get; set; }
 
         private string connectionString { get; set; }
 
@@ -27,6 +31,7 @@ namespace ADOCRUD.UnitTests
             productId = 0;
             nullableId = 0;
             nonNullableId = 0;
+            userId = 0;
             guid = Guid.NewGuid();
             
         }
@@ -57,6 +62,74 @@ namespace ADOCRUD.UnitTests
 
                 conn.Close();
             }
+
+            // Inserts a sample row to test
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                StringBuilder nonQuery = new StringBuilder();
+                nonQuery.Append("insert into Product (CategoryId, Name, Price, Description) ");
+                nonQuery.Append("values (@categoryId, @name, @price, @description) ");
+                nonQuery.Append("select @id = @@identity ");
+
+                SqlCommand cmd = new SqlCommand(nonQuery.ToString(), conn);
+                cmd.Parameters.Add("categoryId", SqlDbType.Int).Value = 1;
+                cmd.Parameters.Add("name", SqlDbType.VarChar).Value = "Baseball";
+                cmd.Parameters.Add("price", SqlDbType.Decimal).Value = 5.99m;
+                cmd.Parameters.Add("description", SqlDbType.VarChar).Value = "baseball to throw with your kids";
+                cmd.Parameters.Add("id", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery();
+
+                secondProductId = Convert.ToInt32(cmd.Parameters["id"].Value);
+
+                conn.Close();
+            }
+
+            // Inserts a sample row to test
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                StringBuilder nonQuery = new StringBuilder();
+                nonQuery.Append("insert into [User] (FirstName, LastName) ");
+                nonQuery.Append("values (@firstName, @lastName) ");
+                nonQuery.Append("select @id = @@identity ");
+
+                SqlCommand cmd = new SqlCommand(nonQuery.ToString(), conn);
+                cmd.Parameters.Add("firstName", SqlDbType.VarChar).Value = "John";
+                cmd.Parameters.Add("lastName", SqlDbType.VarChar).Value = "Williams";
+                cmd.Parameters.Add("id", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery();
+
+                userId = Convert.ToInt32(cmd.Parameters["id"].Value);
+
+                conn.Close();
+            }
+
+            // Inserts a sample row to test
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                StringBuilder nonQuery = new StringBuilder();
+                nonQuery.Append("insert into [User] (FirstName, LastName) ");
+                nonQuery.Append("values (@firstName, @lastName) ");
+                nonQuery.Append("select @id = @@identity ");
+
+                SqlCommand cmd = new SqlCommand(nonQuery.ToString(), conn);
+                cmd.Parameters.Add("firstName", SqlDbType.VarChar).Value = "Mike";
+                cmd.Parameters.Add("lastName", SqlDbType.VarChar).Value = "Johnson";
+                cmd.Parameters.Add("id", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery();
+
+                secondUserId = Convert.ToInt32(cmd.Parameters["id"].Value);
+
+                conn.Close();
+            }
         }
 
         [TestCleanup]
@@ -71,13 +144,19 @@ namespace ADOCRUD.UnitTests
 
                 StringBuilder nonQuery = new StringBuilder();
                 nonQuery.Append("delete from Product where Id = @productId ");
+                nonQuery.Append("delete from Product where Id = @secondProductId ");
                 nonQuery.Append("delete from Nullable where Id = @nullableId ");
                 nonQuery.Append("delete from NonNullable where Id = @nonNullableId ");
+                nonQuery.Append("delete from UserProduct where UserId = @userId ");
+                nonQuery.Append("delete from UserProduct where UserId = @secondUserId ");
 
                 SqlCommand cmd = new SqlCommand(nonQuery.ToString(), conn);
                 cmd.Parameters.Add("productId", SqlDbType.Int).Value = productId;
+                cmd.Parameters.Add("secondProductId", SqlDbType.Int).Value = secondProductId;
                 cmd.Parameters.Add("nullableId", SqlDbType.Int).Value = nullableId;
                 cmd.Parameters.Add("nonNullableId", SqlDbType.Int).Value = nonNullableId;
+                cmd.Parameters.Add("userId", SqlDbType.Int).Value = userId;
+                cmd.Parameters.Add("secondUserId", SqlDbType.Int).Value = secondUserId;
 
                 cmd.ExecuteNonQuery();
 
@@ -320,6 +399,25 @@ namespace ADOCRUD.UnitTests
                 "Insert of values in non nullable properties failed");
         }
 
+        [TestMethod]
+        public void TestInsertOfCompositeKeys_Commit()
+        {
+            UserProduct retrievedUserProduct = null;
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+            {
+                UserProduct ur = new UserProduct();
+                ur.UserId = userId;
+                ur.ProductId = productId;
+
+                context.Insert<UserProduct>(ur);
+                context.Commit();
+
+                retrievedUserProduct = context.QueryItems<UserProduct>("select * from UserProduct where userId = @userId and productId = @productId", new { userId = userId, productId = productId }).FirstOrDefault();
+            }
+
+            Assert.IsTrue(retrievedUserProduct != null && retrievedUserProduct.UserId == userId && retrievedUserProduct.ProductId == productId, "An error occurred while inserting a composite key int crosswalk");
+        }
+
         /// <summary>
         /// Test update was successful
         /// </summary>
@@ -366,6 +464,7 @@ namespace ADOCRUD.UnitTests
                 p.Price = 29.99m;
 
                 context.Update<Product>(p);
+
             }
 
             using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
@@ -426,6 +525,36 @@ namespace ADOCRUD.UnitTests
 
                 Assert.IsTrue(p != null && p.Id > 0);
             }
+        }
+
+        [TestMethod]
+        public void TestRemovalOfCompositeKeys_Commit()
+        {
+            UserProduct retrievedUP = null;
+
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+            {
+                UserProduct up = new UserProduct();
+                up.UserId = userId;
+                up.ProductId = productId;
+
+                context.Insert<UserProduct>(up);
+                context.Commit();
+            }
+
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+            {
+                // Makes sure user product being retreived exists
+                UserProduct up = context.QueryItems<UserProduct>("select * from dbo.UserProduct where UserId = @userId and ProductId = @productId", new { userId = userId, productId = productId }).FirstOrDefault();
+                Assert.IsTrue(up != null && up.UserId == userId && up.ProductId == productId);
+
+                context.Remove(up);
+                context.Commit();
+
+                retrievedUP = context.QueryItems<UserProduct>("select * from dbo.UserProduct where UserId = @userId and ProductId = @productId", new { userId = userId, productId = productId }).FirstOrDefault();
+            }
+
+            Assert.IsTrue(retrievedUP == null, "A problem occurred when trying to remove a composite key");
         }
 
         /// <summary>

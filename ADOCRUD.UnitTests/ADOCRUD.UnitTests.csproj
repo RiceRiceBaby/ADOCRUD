@@ -57,6 +57,8 @@
     <Compile Include="Models\NonNullable.cs" />
     <Compile Include="Models\Nullable.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

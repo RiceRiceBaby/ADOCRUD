@@ -3,7 +3,3 @@ C:\Projects\ADOCRUD\trunk\ADOCRUD.DBSource\bin\Debug\ADOCRUD.DBSource.dll
 C:\Projects\ADOCRUD\trunk\ADOCRUD.DBSource\bin\Debug\ADOCRUD.DBSource.pdb
 C:\Projects\ADOCRUD\trunk\ADOCRUD.DBSource\obj\Debug\ADOCRUD.DBSource.dll
 C:\Projects\ADOCRUD\trunk\ADOCRUD.DBSource\obj\Debug\ADOCRUD.DBSource.pdb
-C:\Projects\ADOCRUD\trunk\ADOCRUD.DBSource\obj\Debug\Model.xml
-C:\Projects\ADOCRUD\trunk\ADOCRUD.DBSource\obj\Debug\refactor.xml
-C:\Projects\ADOCRUD\trunk\ADOCRUD.DBSource\obj\Debug\postdeploy.sql
-C:\Projects\ADOCRUD\trunk\ADOCRUD.DBSource\obj\Debug\predeploy.sql

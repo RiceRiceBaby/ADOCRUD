@@ -70,5 +70,7 @@
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="Security\UnitTestAccount_1.sql" />
     <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="dbo\Tables\UserProduct.sql" />
+    <Build Include="dbo\Tables\User.sql" />
   </ItemGroup>
 </Project>
