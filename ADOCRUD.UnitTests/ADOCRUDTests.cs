@@ -357,7 +357,7 @@ namespace ADOCRUD.UnitTests
             Product p = null;
             Product retreivedProduct = null;
 
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 p = context.QueryItems<Product>("select * from Product where Id = @id", new { id = productId }).First();
                 p.Name = "Waffle Maker";
@@ -368,7 +368,7 @@ namespace ADOCRUD.UnitTests
                 context.Update<Product>(p);
             }
 
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 retreivedProduct = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = p.Id }).FirstOrDefault();
             }
@@ -387,7 +387,7 @@ namespace ADOCRUD.UnitTests
         [TestMethod]
         public void TestRemove_Commit()
         {
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 Product p = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
 
@@ -397,7 +397,7 @@ namespace ADOCRUD.UnitTests
                 context.Commit();
             }
 
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 Product p = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
 
@@ -411,7 +411,7 @@ namespace ADOCRUD.UnitTests
         [TestMethod]
         public void TestRemove_NoCommit()
         {
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 Product p = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
 
@@ -420,7 +420,7 @@ namespace ADOCRUD.UnitTests
                 context.Remove(p);
             }
 
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 Product p = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
 
@@ -440,7 +440,7 @@ namespace ADOCRUD.UnitTests
             Product retreivedProduct1 = null;
             Product retreivedProduct2 = null;
 
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 p1 = new Product();
                 p1.CategoryId = 1;
@@ -459,7 +459,7 @@ namespace ADOCRUD.UnitTests
                 context.Commit();
             }
 
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 retreivedProduct1 = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = p1.Id }).FirstOrDefault();
                 retreivedProduct2 = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = p2.Id }).FirstOrDefault();
@@ -490,7 +490,7 @@ namespace ADOCRUD.UnitTests
             Product retreivedProduct1 = null;
             Product retreivedProduct2 = null;
 
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 p1 = new Product();
                 p1.CategoryId = 1;
@@ -508,7 +508,7 @@ namespace ADOCRUD.UnitTests
                 context.Insert<Product>(p2);
             }
 
-            using (ADOCRUDContext context = new ADOCRUDContext(ConfigurationManager.ConnectionStrings["UnitTestDB"].ToString()))
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
             {
                 retreivedProduct1 = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = p1.Id }).FirstOrDefault();
                 retreivedProduct2 = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = p2.Id }).FirstOrDefault();
@@ -516,6 +516,23 @@ namespace ADOCRUD.UnitTests
 
             Assert.IsTrue(retreivedProduct1 == null, "Insert should have failed, but succeeded");
             Assert.IsTrue(retreivedProduct2 == null, "Insert should have failed, but succeeded");
+        }
+
+        [TestMethod]
+        public void TestQueryItem()
+        {
+            Product retreivedProduct = null;
+
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+            {
+                retreivedProduct = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
+            }
+
+            Assert.IsTrue(retreivedProduct != null &&
+                retreivedProduct.Id == productId &&
+                retreivedProduct.Name == "Volleyball" &&
+                retreivedProduct.Price == 10.99m &&
+                retreivedProduct.Description == "Soft ball that does not hurt the wrist", "Query Item is retreiving the object incorrectly");
         }
     }
 }

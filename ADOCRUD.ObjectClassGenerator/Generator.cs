@@ -173,7 +173,7 @@ namespace ADOCRUD.ObjectClassGenerator
                 textForClassCreation.Append("using System.Collections.Generic;" + Environment.NewLine);
                 textForClassCreation.Append("using System.Linq;" + Environment.NewLine);
                 textForClassCreation.Append("using System.Text;" + Environment.NewLine);
-                textForClassCreation.Append("using System.Threading.Tasks;" + Environment.NewLine+Environment.NewLine + Environment.NewLine);
+                textForClassCreation.Append("using System.Threading.Tasks;" + Environment.NewLine+Environment.NewLine);
                 textForClassCreation.Append("namespace " + nameSpace + Environment.NewLine);
                 textForClassCreation.Append("{" + Environment.NewLine);
                 textForClassCreation.Append("[Table(\"".PadLeft(12, ' ') + dt.TableName + "\", \"" + dt.Prefix + "\")]" + Environment.NewLine);

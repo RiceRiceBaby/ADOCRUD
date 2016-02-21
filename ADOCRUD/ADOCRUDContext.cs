@@ -118,12 +118,12 @@ namespace ADOCRUD
             // Generates delete statement
             StringBuilder query = new StringBuilder();
             query.Append("delete from " + tableName + " ");
-            query.Append("where " + String.Join(" and ", modelProperties.Select(x => x.Name + " = @" + x.Name)));
+            query.Append("where " + String.Join(" and ", primaryKeyProperties.Select(x => x.Name + " = @" + x.Name)));
 
             try
             {
                 // Generates and executes sql command
-                SqlCommand cmd = GenerateSqlCommand<T>(item, query.ToString(), modelProperties, null, ADOCRUDEnums.Action.Remove);
+                SqlCommand cmd = GenerateSqlCommand<T>(item, query.ToString(), null, primaryKeyProperties, ADOCRUDEnums.Action.Remove);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -169,46 +169,52 @@ namespace ADOCRUD
             // Initializes sql command
             SqlCommand cmd = new SqlCommand(query.ToString(), sqlConnection as SqlConnection, sqlTransaction as SqlTransaction);
 
-            // Adds parameters to sql command
-            for (int i = 0; i < modelProperties.Count(); i++)
-            {
-                // Checks to see if the data type is in the list of handled data types
-                if (DataTypeMapper.DataTypes().ContainsKey(modelProperties[i].PropertyType))
+            if (modelProperties != null && modelProperties.Count() > 0)
+            { 
+                // Adds model parameters to sql command
+                for (int i = 0; i < modelProperties.Count(); i++)
                 {
-                    SqlDbType dbType;
+                    // Checks to see if the data type is in the list of handled data types
+                    if (DataTypeMapper.DataTypes().ContainsKey(modelProperties[i].PropertyType))
+                    {
+                        SqlDbType dbType;
 
-                    // Grabs value from property and checks if its null
-                    // If its not null, the pass value into sqlcommand parameter
-                    // Otherwise pass in DBNull.Value
-                    DataTypeMapper.DataTypes().TryGetValue(modelProperties[i].PropertyType, out dbType);
+                        // Grabs value from property and checks if its null
+                        // If its not null, the pass value into sqlcommand parameter
+                        // Otherwise pass in DBNull.Value
+                        DataTypeMapper.DataTypes().TryGetValue(modelProperties[i].PropertyType, out dbType);
 
-                    object dbValue = modelProperties[i].GetValue(item, null);
+                        object dbValue = modelProperties[i].GetValue(item, null);
 
-                    if (dbValue != null)
-                        cmd.Parameters.Add(modelProperties[i].Name, dbType).Value = modelProperties[i].GetValue(item, null);
+                        if (dbValue != null)
+                            cmd.Parameters.Add(modelProperties[i].Name, dbType).Value = modelProperties[i].GetValue(item, null);
+                        else
+                            cmd.Parameters.Add(modelProperties[i].Name, dbType).Value = DBNull.Value;
+                    }
                     else
-                        cmd.Parameters.Add(modelProperties[i].Name, dbType).Value = DBNull.Value;
-                }
-                else
-                {
-                    throw new Exception("One or more properties in your model include an unhandled data type");
+                    {
+                        throw new Exception("One or more properties in your model include an unhandled data type");
+                    }
                 }
             }
-
 
             if (action == ADOCRUDEnums.Action.Insert)
             {
                 // Grabs identity generated on insert
                 cmd.Parameters.Add("primaryKey", SqlDbType.Int).Direction = ParameterDirection.Output;
             }
-            else if (action  == ADOCRUDEnums.Action.Update)
+            else if (action  == ADOCRUDEnums.Action.Update || action == ADOCRUDEnums.Action.Remove)
             {
-                if (primaryKeyProperties[0].PropertyType == typeof(int) || primaryKeyProperties[0].PropertyType == typeof(Int32))
-                    cmd.Parameters.Add(primaryKeyProperties[0].Name, SqlDbType.Int).Value = primaryKeyProperties[0].GetValue(item, null);
-                else if (primaryKeyProperties[0].PropertyType == typeof(Guid))
-                    cmd.Parameters.Add(primaryKeyProperties[0].Name, SqlDbType.UniqueIdentifier).Value = primaryKeyProperties[0].GetValue(item, null);
-                else
-                    throw new Exception("Primary key must be an integer or GUID");
+                // Add primary key parameters to sql command
+                for (int i = 0; i < primaryKeyProperties.Count(); i++)
+                {
+                    if (primaryKeyProperties[i].PropertyType == typeof(int))
+                        cmd.Parameters.Add(primaryKeyProperties[i].Name, SqlDbType.Int).Value = primaryKeyProperties[i].GetValue(item, null);
+                    else if (primaryKeyProperties[0].PropertyType == typeof(Guid))
+                        cmd.Parameters.Add(primaryKeyProperties[i].Name, SqlDbType.UniqueIdentifier).Value = primaryKeyProperties[i].GetValue(item, null);
+                    else
+                        throw new Exception("Primary key must be an integer or GUID");
+                }
             }
 
             return cmd;
