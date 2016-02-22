@@ -3,7 +3,7 @@ Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapp
 This ORM comes with an object class generator tool. This tool allows you to connect to a Sql Server database, grabs all the tables, and generates C# objects as .cs files and outputs them to the folder you specify.
 
 ###<b>Limitations I've discovered:</b><br />
-Nested connections not allowed - <i>automatic management of open and closing of connections via using statements (connection opens in constructor, closes on dispose) prevents you from opening a connection within a connection. If enough people request that they want to manage their own connections, I will take out the automatic management of opening and closing connections. For example, the following will not work:<i>
+Nested connections not allowed - <i>automatic management of open and closing of connections via using statements (connection opens in constructor, closes on dispose) prevents you from opening a connection within a connection. If enough people request that they want to manage their own connections, I will take out the automatic management of opening and closing connections. For now I will keep it in as I think this is very useful. For those of you who don't understand what I am saying, the code sample below is what I mean of what won't work:<i>
 
 ```cs
 public Product GetProductById(int productId)
