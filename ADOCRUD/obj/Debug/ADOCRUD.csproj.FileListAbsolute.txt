@@ -5,4 +5,3 @@ C:\Projects\ADOCRUD\trunk\ADOCRUD\bin\Debug\Dapper.pdb
 C:\Projects\ADOCRUD\trunk\ADOCRUD\bin\Debug\Dapper.xml
 C:\Projects\ADOCRUD\trunk\ADOCRUD\obj\Debug\ADOCRUD.dll
 C:\Projects\ADOCRUD\trunk\ADOCRUD\obj\Debug\ADOCRUD.pdb
-C:\Projects\ADOCRUD\trunk\ADOCRUD\obj\Debug\ADOCRUD.csprojResolveAssemblyReference.cache

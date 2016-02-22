@@ -241,7 +241,7 @@ namespace ADOCRUD
                     }
                     else
                     {
-                        throw new Exception("One or more properties in your model include an unhandled data type");
+                        throw new Exception("Property of type " + modelProperties[i].PropertyType.Name + " does not have a corresponding sql data type");
                     }
                 }
             }
