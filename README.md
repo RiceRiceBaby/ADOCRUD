@@ -87,12 +87,14 @@ Query Example:
 ```cs
 public Product GetProductById(int productId)
 {
-  Product retreivedProduct = null;
+  Product p = null;
 
   using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
   {
-    retreivedProduct = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
+    p = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
   }
+  
+  return p;
 }
 ```
 QueryItems executes the select statement you pass in, grabs the results of the query and automatically maps it the C# object(s) and returns that/those object. The QueryItems function by default returns a list of objects, but you can limit it to a single object by using the "First()" or "FirstOrDefault()" method. Notice that to keep the query parameterized, you pass the parameters in the 2nd argument as a single object. To pass in extra parameters, you just add in comma separated values (i.e new { Id = productId, name = "Basketball", price = 11.99 })<br />
