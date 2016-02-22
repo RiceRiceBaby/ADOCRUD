@@ -139,5 +139,5 @@ The object class generator tool provides a graphical user interface that is pret
 <b>User Id:</b> <i>Sql server user id that has access to the database</i><br />
 <b>Password:</b> <i>Sql server password of the user</i><br />
 <b>C# Namespace:</b> <i>Namespace the C# class should be under</i><br />
-<b>Output Path:</b> <i>File path where all the C# classes should be produced</i><br />
+<b>Output Path:</b> <i>File path where all the C# classes should be generated</i><br />
 <b>Generate Objects:</b> <i>Clicking this button generates all the C# objects in the file path entered.</i>
