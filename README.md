@@ -3,7 +3,30 @@ Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapp
 This ORM comes with an object class generator tool. This tool allows you to connect to a Sql Server database, grabs all the tables, and generates C# objects as .cs files and outputs them to the folder you specify.
 
 ###<b>Limitations I've discovered:</b><br />
-Nested connections not allowed - <i>automatic management of open and closing of connections via using statements (connection opens in constructor, closes on dispose) prevents you from opening a connection with a connection. If enough people request that they want to manage their own connections, I will take out the automatic management of opening and closing connections.<i>
+Nested connections not allowed - <i>automatic management of open and closing of connections via using statements (connection opens in constructor, closes on dispose) prevents you from opening a connection within a connection. If enough people request that they want to manage their own connections, I will take out the automatic management of opening and closing connections. For example, the following will not work:<i>
+
+```cs
+public Product GetProductById(int productId)
+{
+  Product retreivedProduct = null;
+
+  using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+  {
+    retreivedProduct = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
+  }
+}
+
+public void UpdateProduct(int productId)
+{
+  using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+  {
+    Product p = this.GetProductById(productId);
+    p.Name = "Basketball";
+    context.Update<Product>(p);
+    context.Commit();
+  }
+}
+```
 
 ## ADOCRUDContext (ORM)
 
