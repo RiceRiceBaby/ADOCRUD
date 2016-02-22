@@ -663,5 +663,29 @@ namespace ADOCRUD.UnitTests
                 retreivedProduct.Price == 10.99m &&
                 retreivedProduct.Description == "Soft ball that does not hurt the wrist", "Query Item is retreiving the object incorrectly");
         }
+
+        [TestMethod]
+        public void TestNestedConnections_Commit()
+        {
+            Product p = null;
+            Product retreivedProduct = null;
+
+            using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+            {
+                using (ADOCRUDContext context2 = new ADOCRUDContext(connectionString))
+                {
+                    p = context2.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
+                }
+
+                p.Name = "Bowling ball";
+
+                context.Update<Product>(p);
+                context.Commit();
+
+                retreivedProduct = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
+            }
+
+            Assert.IsTrue(retreivedProduct != null && retreivedProduct.Name == "Bowling ball", "An error occurred with nested connections");
+        }
     }
 }

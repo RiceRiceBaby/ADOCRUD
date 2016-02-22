@@ -15,8 +15,8 @@ namespace ADOCRUD
 {
     public class ADOCRUDContext : IDisposable
     {
-        internal static IDbConnection sqlConnection;
-        internal static IDbTransaction sqlTransaction;
+        internal IDbConnection sqlConnection;
+        internal IDbTransaction sqlTransaction;
 
         // This suffix is added to every sql parameter to keep it unique since I don't know of any developers that end their sql variable with an underscore
         internal string suffix = "_";
