@@ -134,10 +134,10 @@ Example that does not work: SQL Column: product_id, C# Property: public int Prod
 ##ADOCRUD Object Class Generator
 
 The object class generator tool provides a graphical user interface that is pretty straight forward to use. This generator scans all the tables in the Sql Server database entered and generates C# objects/classes for each of those tables. <br />
-Sql Server Datasource: Name of the server<br />
+<i>Sql Server Datasource: Name of the server<br />
 Database: Name of the database<br />
 User Id: Sql server user id that has access to the database<br />
 Password: Sql server password of the user<br />
 C# Namespace: Namespace the C# class should be under<br />
 Output Path: File path where all the C# classes should be produced<br />
-Generate Objects: Clicking this button generates all the C# objects in the file path entered.
+Generate Objects: Clicking this button generates all the C# objects in the file path entered.</i>
