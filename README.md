@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace ADOCRUD.UnitTests.Models
+namespace ADOCRUD.Models
 {
     [Table("Product", "dbo")]
     public class Product
