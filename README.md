@@ -104,12 +104,14 @@ QueryItems executes the select statement you pass in, grabs the results of the q
 ```cs
 public Product GetProductById(int productId)
 {
-  Product retreivedProduct = null;
+  Product p = null;
 
   using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
   {
-    retreivedProduct = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
+    p = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
   }
+  
+  return p;
 }
 
 public void UpdateProduct(int productId)
