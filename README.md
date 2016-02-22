@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace ADOCRUD.Models
+namespace ADOCRUDExamples.Models
 {
     [Table("Product", "dbo")]
     public class Product
