@@ -2,29 +2,6 @@
 Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapper. Handles automatic insert, update, and removal of objects without having to write any sql statements for Create, Update, and Remove functionality. The query part of this ORM is an extension of Dapper which means you still need to write sql statements to retrieve data, but that data will automatically be mapped to your C# objects. Most of this application was written primarily using reflection.<br /><br />
 This ORM comes with an object class generator tool. This tool allows you to connect to a Sql Server database, grabs all the tables, and generates C# objects as .cs files and outputs them to the folder you specify.
 
-```cs
-public Product GetProductById(int productId)
-{
-  Product retreivedProduct = null;
-
-  using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
-  {
-    retreivedProduct = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
-  }
-}
-
-public void UpdateProduct(int productId)
-{
-  using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
-  {
-    Product p = this.GetProductById(productId);
-    p.Name = "Basketball";
-    context.Update<Product>(p);
-    context.Commit();
-  }
-}
-```
-
 ## ADOCRUDContext (ORM)
 
 Model Example:<br />
@@ -122,6 +99,28 @@ QueryItems executes the select statement you pass in, grabs the results of the q
 
 ###<b>Limitations I've discovered:</b><br />
 \#1. Nested connections not allowed - <i>automatic management of open and closing of connections via using statements (connection opens in constructor, closes on dispose) prevents you from opening a connection within a connection. If enough people request that they want to manage their own connections, I will take out the automatic management of opening and closing connections. For now I will keep it in as I think this is very useful. For those of you who don't understand what I am saying, the code sample below is what I mean of what won't work:<i>
+```cs
+public Product GetProductById(int productId)
+{
+  Product retreivedProduct = null;
+
+  using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+  {
+    retreivedProduct = context.QueryItems<Product>("select * from dbo.Product where Id = @id", new { id = productId }).FirstOrDefault();
+  }
+}
+
+public void UpdateProduct(int productId)
+{
+  using (ADOCRUDContext context = new ADOCRUDContext(connectionString))
+  {
+    Product p = this.GetProductById(productId);
+    p.Name = "Basketball";
+    context.Update<Product>(p);
+    context.Commit();
+  }
+}
+```
 
 ##ADOCRUD Object Class Generator
 
