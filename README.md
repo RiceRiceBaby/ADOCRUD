@@ -100,7 +100,7 @@ public Product GetProductById(int productId)
 QueryItems executes the select statement you pass in, grabs the results of the query and automatically maps it the C# object(s) and returns that/those object. The QueryItems function by default returns a list of objects, but you can limit it to a single object by using the "First()" or "FirstOrDefault()" method. Notice that to keep the query parameterized, you pass the parameters in the 2nd argument as a single object. To pass in extra parameters, you just add in comma separated values (i.e new { Id = productId, name = "Basketball", price = 11.99 })<br />
 
 ###<b>Limitations I've discovered:</b><br />
-\#1. Nested connections not allowed - <i>automatic management of open and closing of connections via using statements (connection opens in constructor, closes on dispose) prevents you from opening a connection within a connection. If enough people request that they want to manage their own connections, I will take out the automatic management of opening and closing connections. For now I will keep it in as I think this is very useful. For those of you who don't understand what I am saying, the code sample below is what I mean of something that won't work:<i>
+\#1. Nested connections not allowed - <i>automatic management of open and closing of connections via using statements (connection opens in constructor, closes on dispose) prevents you from opening a connection within a connection. If enough people request that they want to manage their own connections, I will take out the automatic management of opening and closing connections. For now I will keep it in as I think this is very useful. For those of you who don't understand what I am saying, the code sample below is what I mean of something that won't work:</i>
 ```cs
 public Product GetProductById(int productId)
 {
@@ -127,9 +127,9 @@ public void UpdateProduct(int productId)
 ```
 <br />
 \#2. Spelling and letter casing must be the same between C# object property and the corresponding sql column the property maps to must be exact.<br />
-Example that works: SQL Column: ProductId, C# Property: public int ProductId { get; set; }<br />
+<i>Example that works: SQL Column: ProductId, C# Property: public int ProductId { get; set; }<br />
 
-Example that does not work: SQL Column: product_id, C# Property: public int ProductId { get; set; }
+Example that does not work: SQL Column: product_id, C# Property: public int ProductId { get; set; }</i>
 
 ##ADOCRUD Object Class Generator
 
