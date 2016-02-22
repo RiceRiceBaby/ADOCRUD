@@ -101,11 +101,8 @@ QueryItems executes the select statement you pass in, grabs the results of the q
 
 ###<b>Limitations:</b><br />
 \#1. Does not support nested transactions, but does support nested connections.<br />
-
-Example that does not work: SQL Column: product_id, C# Property: public int ProductId { get; set; }</i>
 \#2. Spelling and letter casing between C# property and the corresponding sql column the property maps to must be exactly the same.<br />
 <i>Example that works: SQL Column: ProductId, C# Property: public int ProductId { get; set; }<br />
-
 Example that does not work: SQL Column: product_id, C# Property: public int ProductId { get; set; }</i>
 
 ##ADOCRUD Object Class Generator
