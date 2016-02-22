@@ -125,8 +125,9 @@ public void UpdateProduct(int productId)
   }
 }
 ```
+<br />
 \#2. Spelling and letter casing must be the same between C# object property and the corresponding sql column the property maps to must be exact.<br />
-Example that works: SQL Column: ProductId, C# Property: public int ProductId { get; set; }<br /><br />
+Example that works: SQL Column: ProductId, C# Property: public int ProductId { get; set; }<br />
 
 Example that does not work: SQL Column: product_id, C# Property: public int ProductId { get; set; }
 
