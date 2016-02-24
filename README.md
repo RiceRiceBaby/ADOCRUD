@@ -54,7 +54,7 @@ public void AddProduct(Product p)
   }
 }
 ```
-Using statement opens up a connection to the database specified in the connection and also opens up a transaction scope. The insert does not finalize unless you call the commit method of the context. ADOCRUDContext closes the connection on Dispose() which means the connection here gets closed at the end of the using statement.
+Using statement opens up a connection to the database specified in the connection and also opens up a transaction scope. The insert does not finalize unless you call the commit method of the context. ADOCRUDContext closes the connection and disposes the transaction on Dispose() which means the connection here gets closed at the end of the using statement.
 
 Update Example: <br />
 
@@ -68,7 +68,7 @@ public void UpdateProduct(Product p)
   }
 }
 ```
-Update behaves the same way as the insert. Opens up a transaction scope and connection in the beginning of the using statement. Completes the transaction on the commit method. Closes the connection on Dispose() which is the final bracket of the using statement.
+Update behaves the same way as the insert. Opens up a transaction scope and connection in the beginning of the using statement. Completes the transaction on the commit method. Closes the connection and disposes the transaction on Dispose() which is the final bracket of the using statement.
 
 ```cs
 public void Remove(Product p)
