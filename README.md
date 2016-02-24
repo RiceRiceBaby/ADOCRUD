@@ -100,7 +100,7 @@ public Product GetProductById(int productId)
 QueryItems executes the select statement you pass in, grabs the results of the query and automatically maps it the C# object(s) and returns that/those object. The QueryItems function by default returns a list of objects, but you can limit it to a single object by using the "First()" or "FirstOrDefault()" method. Notice that to keep the query parameterized, you pass the parameters in the 2nd argument as a single object. To pass in extra parameters, you just add in comma separated values (i.e new { Id = productId, name = "Basketball", price = 11.99 })<br />
 
 ###<b>Limitations:</b><br />
-\#1. Does not support nested transactions, but does support nested connections. In other words, you can create a using context within another using context, but if both contexts call their respective commmit method and the outer context fails and the inner commit succeeds, the changes in that inner commit will still be applied to the database while the outer commit will roll back whatever it tried to do.<br />
+\#1. Does not support nested transactions, but does support nested connections. In other words, you can create a using context within another using context, but if both contexts call their respective commmit method and the outer context fails and the inner context succeeds, the changes in that inner context will still be applied to the database while the outer commit will roll back whatever it tried to do.<br />
 
 \#2. Spelling and letter casing between C# property and the corresponding sql column the property maps to must be exactly the same.<br />
 <i>Example that works: SQL Column: ProductId, C# Property: public int ProductId { get; set; }<br />
