@@ -102,7 +102,7 @@ QueryItems executes the select statement you pass in, grabs the results of the q
 ###<b>Limitations:</b><br />
 \#1. Does not support nested transactions, but does support nested connections. In other words, you can create a using context within another using context, but if both contexts call their respective commmit method and the outer context fails and the inner context succeeds, the changes in that inner context will still be applied to the database while the outer commit will roll back whatever it tried to do.<br />
 
-\#2. Spelling and letter casing between C# property and the corresponding sql column the property maps to must be exactly the same.<br />
+\#2. Spelling and letter casing between C# properties and their corresponding sql columns the properties maps to must be exactly the same.<br />
 <i>Example that works: SQL Column: ProductId, C# Property: public int ProductId { get; set; }<br />
 Example that does not work: SQL Column: product_id, C# Property: public int ProductId { get; set; }</i>
 
