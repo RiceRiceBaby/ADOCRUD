@@ -116,3 +116,6 @@ The object class generator tool provides a graphical user interface that is pret
 <b>C# Namespace:</b> <i>Namespace the C# class should be under</i><br />
 <b>Output Path:</b> <i>File path where all the C# classes should be generated</i><br />
 <b>Generate Objects:</b> <i>Clicking this button generates all the C# objects in the file path entered.</i>
+
+##License
+License is under Apache. This means that this software is free for personal or commercial use.
