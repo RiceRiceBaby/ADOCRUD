@@ -124,6 +124,6 @@ License is under Apache. This means that this software is free for personal or c
 If you find a bug with this software, please click on the issues tab and submit a ticket.
 
 ##Author
-Name: Daniel Li
-My Twitter Handle: https://twitter.com/DanielDavidLi
-LinkedIn Profile: https://www.linkedin.com/in/danieldli?trk=hp-identity-name
+Name: Daniel Li<br />
+My Twitter Handle: https://twitter.com/DanielDavidLi<br />
+LinkedIn Profile: https://www.linkedin.com/in/danieldli?trk=hp-identity-name<br />
