@@ -120,7 +120,10 @@ The object class generator tool provides a graphical user interface that is pret
 ##License
 License is under Apache. This means that this software is free for personal or commercial use.
 
-#Author
+## Bug Management
+If you find a bug with this software, please click on the issues tab and submit a ticket.
+
+##Author
 Name: Daniel Li
 My Twitter Handle: https://twitter.com/DanielDavidLi
 LinkedIn Profile: https://www.linkedin.com/in/danieldli?trk=hp-identity-name
