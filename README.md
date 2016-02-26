@@ -121,7 +121,7 @@ The object class generator tool provides a graphical user interface that is pret
 License is under Apache. This means that this software is free for personal or commercial use.
 
 ## Issues
-If you find an with this software, please click <a href="https://github.com/RiceRiceBaby/ADOCRUD/issues">here</a> to submit a ticket.
+If you find an issue with this software, please click <a href="https://github.com/RiceRiceBaby/ADOCRUD/issues">here</a> to submit a ticket.
 
 ##Author
 Name: Daniel Li<br />
