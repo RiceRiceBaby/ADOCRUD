@@ -40,7 +40,7 @@ namespace ADOCRUDExamples.Models
 }
 ```
 
-For your objects to work with the ADOCRUD ORM, attributes are required. Table attribute specifies which database table the object maps to. The first argument in the table attribute is the table name. The 2nd argument specifies the schema the table belongs to. Member attribute specifies that the property corresponds to a column in the table. Properties that do not have this member attribute will be ignored and excluded from any database manipulation (insert, update, remove). PrimaryKey attribute specifies that the property corresponds with the identity/primary key column of the table.
+For your objects to work with the ADOCRUD ORM, attributes are required. Table attribute specifies which database table the object maps to. The first argument in the table attribute is the table name. The 2nd argument specifies the schema the table belongs to. For example, the attribute [Table("Product", "dbo")] looks the table "dbo.Product". Member attribute specifies that the property corresponds to a column in the table. Properties that do not have this member attribute will be ignored and excluded from any database manipulation (insert, update, remove). PrimaryKey attribute specifies that the property corresponds with the identity/primary key column of the table.
 
 Insert Example: <br />
 
@@ -54,7 +54,7 @@ public void AddProduct(Product p)
   }
 }
 ```
-Using statement opens up a connection to the database specified in the connection and also opens up a transaction scope. The insert does not finalize unless you call the commit method of the context. ADOCRUDContext closes the connection and disposes the transaction on Dispose() which means the connection here gets closed at the end of the using statement.
+Using statement opens up a connection to the database specified in the connection string and also starts up a transaction. The insert does not finalize unless you call the commit method of the context. ADOCRUDContext closes the connection and disposes the transaction on Dispose() which means the connection here gets closed at the end of the using statement.
 
 Update Example: <br />
 
