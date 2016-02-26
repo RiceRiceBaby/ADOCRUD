@@ -54,7 +54,7 @@ public void AddProduct(Product p)
   }
 }
 ```
-Using statement opens up a connection to the database specified in the connection string and also starts up a transaction. The insert does not finalize unless you call the commit method of the context. ADOCRUDContext closes the connection and disposes the transaction on Dispose() which means the connection here gets closed at the end of the using statement.
+Using statement opens up a connection to the database specified in the connection string and also starts up a transaction. The insert does not finalize unless you call the commit method of the context. ADOCRUDContext closes the connection and disposes the transaction on Dispose() which means the connection gets closed and the transaction gets disposed at the end of the using statement.
 
 Update Example: <br />
 
