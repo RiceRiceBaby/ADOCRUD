@@ -1,0 +1,197 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on https://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen">
+  <link rel="stylesheet" href="stylesheets/github-dark.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>ADOCRUD</title>
+  <meta name="description" content="Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapper. Handles automatic insert, update, and removal of objects without having to write any sql statements for Create, Update, and Remove functionality. The query part of this ORM is an extension of Dapper which means you still need to write sql statements to retrieve data, but that data will automatically be mapped to your C# objects. Most of this application was written primarily using reflection.  This ORM comes with an object class generator tool. This tool allows you to connect to a Sql Server database, grabs all the tables, and generates C# objects as .cs files and outputs them to the folder you specify.">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">ADOCRUD</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapper. Handles automatic insert, update, and removal of objects without having to write any sql statements for Create, Update, and Remove functionality. The query part of this ORM is an extension of Dapper which means you still need to write sql statements to retrieve data, but that data will automatically be mapped to your C# objects. Most of this application was written primarily using reflection.  This ORM comes with an object class generator tool. This tool allows you to connect to a Sql Server database, grabs all the tables, and generates C# objects as .cs files and outputs them to the folder you specify.</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/RiceRiceBaby/ADOCRUD/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/RiceRiceBaby/ADOCRUD/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/RiceRiceBaby/ADOCRUD" class="code">View ADOCRUD on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1>
+<a id="adocrud" class="anchor" href="#adocrud" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ADOCRUD</h1>
+
+<p>Lightweight ORM thats built on top of ADO.NET and is partly an extension of Dapper. Handles automatic insert, update, and removal of objects without having to write any sql statements for Create, Update, and Remove functionality. The query part of this ORM is an extension of Dapper which means you still need to write sql statements to retrieve data, but that data will automatically be mapped to your C# objects. Most of this application was written primarily using reflection.<br><br>
+This ORM comes with an object class generator tool. This tool allows you to connect to a Sql Server database, grabs all the tables, and generates C# objects as .cs files and outputs them to the folder you specify.</p>
+
+<h2>
+<a id="adocrudcontext-orm" class="anchor" href="#adocrudcontext-orm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ADOCRUDContext (ORM)</h2>
+
+<p>Model Example:<br></p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">using</span> ADOCRUD.Attributes<span class="pl-k">;</span>
+<span class="pl-k">using</span> System<span class="pl-k">;</span>
+<span class="pl-k">using</span> System.Collections.Generic<span class="pl-k">;</span>
+<span class="pl-k">using</span> System.Linq<span class="pl-k">;</span>
+<span class="pl-k">using</span> System.Text<span class="pl-k">;</span>
+<span class="pl-k">using</span> System.Threading.Tasks<span class="pl-k">;</span>
+
+
+<span class="pl-k">namespace</span> <span class="pl-en">ADOCRUDExamples.Models</span>
+{
+    [Table(<span class="pl-s"><span class="pl-pds">"</span>Product<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>dbo<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Product</span>
+    {
+        [PrimaryKey]
+        [Member]
+        <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">Id</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+        [Member]
+        <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">CategoryId</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+        [Member]
+        <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+        [Member]
+        <span class="pl-k">public</span> <span class="pl-k">decimal</span> <span class="pl-en">Price</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+        [Member]
+        <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Description</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    }
+}</pre></div>
+
+<p>For your objects to work with the ADOCRUD ORM, attributes are required. Table attribute specifies which database table the object maps to. The first argument in the table attribute is the table name. The 2nd argument specifies the schema the table belongs to. For example, the attribute [Table("Product", "dbo")] looks for the table "dbo.Product". Member attribute specifies that the property corresponds to a column in the table. Properties that do not have this member attribute will be ignored and excluded from any database manipulation (insert, update, remove). PrimaryKey attribute specifies that the property corresponds with the identity/primary key column of the table.</p>
+
+<p>Insert Example: <br></p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">void</span> AddProduct(Product p)
+{
+  <span class="pl-k">using</span> (ADOCRUDContext context = <span class="pl-k">new</span> ADOCRUDContext(connectionString))
+  {
+    context.Insert&lt;Product&gt;(p);
+    context.Commit();
+  }
+}</pre></div>
+
+<p>Using statement opens up a connection to the database specified in the connection string and also starts up a transaction. The insert does not finalize unless you call the commit method of the context. ADOCRUDContext closes the connection and disposes the transaction on Dispose() which means the connection gets closed and the transaction gets disposed at the end of the using statement.</p>
+
+<p>Update Example: <br></p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">void</span> UpdateProduct(Product p)
+{
+  <span class="pl-k">using</span> (ADOCRUDContext context = <span class="pl-k">new</span> ADOCRUDContext(connectionString))
+  {
+      context.Update&lt;Product&gt;(p);
+      context.Commit();
+  }
+}</pre></div>
+
+<p>Update behaves the same way as the insert. It starts up a transaction and opens a connection in the beginning of the using statement. Completes the transaction on the commit method. Closes the connection and disposes the transaction on Dispose() which is the final bracket of the using statement.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">void</span> Remove(Product p)
+{
+  <span class="pl-k">using</span> (ADOCRUDContext context = <span class="pl-k">new</span> ADOCRUDContext(connectionString))
+  {
+      context.Remove&lt;Product&gt;(p);
+      context.Commit();
+  }
+}</pre></div>
+
+<p>Remove behaves the same way as the previous 2 methods.</p>
+
+<p>Query Example:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> Product GetProductById(<span class="pl-k">int</span> productId)
+{
+  Product p = <span class="pl-c1">null</span>;
+
+  <span class="pl-k">using</span> (ADOCRUDContext context = <span class="pl-k">new</span> ADOCRUDContext(connectionString))
+  {
+    p = context.QueryItems&lt;Product&gt;(<span class="pl-s"><span class="pl-pds">"</span>select * from dbo.Product where Id = @id<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> { id = productId }).FirstOrDefault();
+  }
+
+  <span class="pl-k">return</span> p;
+}</pre></div>
+
+<p>QueryItems is a wrapper around Dapper's "query" method. QueryItems executes the select statement you pass in, grabs the results of the query and automatically maps it the C# object(s) and returns that/those object. The QueryItems function by default returns a list of objects, but you can limit it to a single object by using the "First()" or "FirstOrDefault()" method. Notice that to keep the query parameterized, you pass the parameters in the 2nd argument as a single object. To pass in extra parameters, you just add in comma separated values (i.e new { Id = productId, name = "Basketball", price = 11.99 })<br></p>
+
+<h3>
+<a id="limitations" class="anchor" href="#limitations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><b>Limitations:</b><br>
+</h3>
+
+<p>#1. Does not support nested transactions, but does support nested connections. In other words, you can create a using context within another using context, but if both contexts call their respective commmit method and the outer context fails and the inner context succeeds, the changes in that inner context will still be applied to the database while the outer commit will roll back whatever it tried to do.<br></p>
+
+<p>#2. Spelling and letter casing between C# properties and their corresponding sql columns the properties maps to must be exactly the same.<br>
+<i>Example that works: SQL Column: ProductId, C# Property: public int ProductId { get; set; }<br>
+Example that does not work: SQL Column: product_id, C# Property: public int ProductId { get; set; }</i></p>
+
+<h2>
+<a id="adocrud-object-class-generator" class="anchor" href="#adocrud-object-class-generator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ADOCRUD Object Class Generator</h2>
+
+<p>The object class generator tool provides a graphical user interface that is pretty straight forward to use. This generator scans all the tables in the Sql Server database entered and generates C# objects/classes for each of those tables. <br>
+<b>Sql Server Datasource:</b> <i>Name of the server</i><br>
+<b>Database:</b> <i>Name of the database</i><br>
+<b>User Id:</b> <i>Sql server user id that has access to the database</i><br>
+<b>Password:</b> <i>Sql server password of the user</i><br>
+<b>C# Namespace:</b> <i>Namespace the C# class should be under</i><br>
+<b>Output Path:</b> <i>File path where all the C# classes should be generated</i><br>
+<b>Generate Objects:</b> <i>Clicking this button generates all the C# objects in the file path entered.</i></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>License is under Apache. This means that this software is free for personal or commercial use.</p>
+
+<h2>
+<a id="issues" class="anchor" href="#issues" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Issues</h2>
+
+<p>If you find an issue with this software, please click <a href="https://github.com/RiceRiceBaby/ADOCRUD/issues">here</a> to submit a ticket.</p>
+
+<h2>
+<a id="author" class="anchor" href="#author" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Author</h2>
+
+<p>Name: Daniel Li<br>
+My Twitter Handle: <a href="https://twitter.com/DanielDavidLi">https://twitter.com/DanielDavidLi</a><br>
+LinkedIn Profile: <a href="https://www.linkedin.com/in/danieldli?trk=hp-identity-name">https://www.linkedin.com/in/danieldli?trk=hp-identity-name</a><br></p>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/RiceRiceBaby" class="avatar"><img src="https://avatars0.githubusercontent.com/u/6494175?v=3&amp;s=60" width="48" height="48"></a> <a href="https://github.com/RiceRiceBaby">RiceRiceBaby</a> maintains <a href="https://github.com/RiceRiceBaby/ADOCRUD">ADOCRUD</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/RiceRiceBaby/ADOCRUD/tarball/master" class="tar">tar</a><a href="https://github.com/RiceRiceBaby/ADOCRUD/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
